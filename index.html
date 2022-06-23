@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .color {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            display: inline-block;
+        }
+
+        .color_blue {
+            background-color: blue;
+        }
+
+        .color_green {
+            background-color: green;
+        }
+
+        .color_yellow {
+            background-color: yellow;
+        }
+        
+        .table {
+            width: 200px;
+            height: 200px;
+            border-collapse: collapse;
+        }
+
+        .table_cell {
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const divWrap = document.createElement('div');
+        divWrap.classList.add('wrap');
+
+        function createSquares(num) {
+            const fragment = new DocumentFragment();
+            const script = document.querySelector('script');
+
+            for (let index = 0; index < num; index++) {
+                const div = document.createElement('div');
+                div.setAttribute('class', 'color');
+                divWrap.append(div);
+            };
+
+            fragment.append(divWrap);
+            script.before(fragment);
+            return fragment;
+        };
+        createSquares(5);
+
+        const square = document.querySelector('.wrap');
+        square.addEventListener('click', ({ target }) => {
+            if (target.nodeName === 'DIV') {
+                if (target.classList == 'color') {
+                    target.classList.add('color_blue')
+                } else if (target.classList.contains('color_blue')) {
+                    target.classList.replace('color_blue', 'color_green')
+                } else if (target.classList.contains('color_green')) {
+                    target.classList.replace('color_green', 'color_yellow')
+                } else if (target.classList.contains('color_yellow')) {
+                    target.classList.replace('color_yellow', 'color_blue')
+                };
+                square.append(target);
+            };
+        });
+
+        function createTable() {
+            const fragment = new DocumentFragment();
+            const script = document.querySelector('script');
+            const table = document.createElement('table');
+            table.setAttribute('class', 'table');
+
+            for (let i = 0; i < 3; i++) {
+                const row = table.insertRow();
+
+                for (let j = 0; j < 3; j++) {
+                    const cell = row.insertCell();
+                    cell.setAttribute('class', 'table_cell');
+                };
+            };
+            
+            for (let i = 0; i < table.rows.length; i++) {
+                const row = table.rows[i];
+
+                for (let j = 0; j < 3; j++) {
+                    const randomeNum = Math.floor(Math.random() * 100) + 1;
+                    row.cells[j].append(randomeNum);
+                };
+            };
+
+            fragment.append(table);
+            script.before(fragment);
+            return fragment;
+        };
+        createTable();
+
+        const table = document.querySelector('.table');
+        table.addEventListener('click', ({ target }) => {
+            if (target.nodeName === 'TD') {
+                p = document.createElement('p');
+                p.append(target.innerText);
+                table.after(p);
+            };
+        });
+    </script>
+</body>
+</html>
